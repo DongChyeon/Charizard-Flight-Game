@@ -26,7 +26,7 @@ public class Audio {
 		catch (LineUnavailableException e) { e.printStackTrace(); }
 		catch (UnsupportedAudioFileException e) { e.printStackTrace(); }
 		catch (IOException e) { e.printStackTrace(); }
-	}	// ¿Àµğ¿À Àç»ı
+	}	// ì˜¤ë””ì˜¤ ì¬ìƒ
 	
 	public void PlayLoop(String PathName) {
 		try {
@@ -41,5 +41,5 @@ public class Audio {
 		catch (LineUnavailableException e) { e.printStackTrace(); }
 		catch (UnsupportedAudioFileException e) { e.printStackTrace(); }
 		catch (IOException e) { e.printStackTrace(); }
-	}	// ¹«ÇÑ·çÇÁ
+	}	// ì˜¤ë””ì˜¤ ë¬´í•œë°˜ë³µ ì¬ìƒ
 }

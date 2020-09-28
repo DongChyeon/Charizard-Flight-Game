@@ -41,6 +41,8 @@ public class Charizard_flight extends JFrame{
 	public static Game game = new Game();
 	public static Audio audio = new Audio();
 	
+	
+	// 초기 UI 설정
 	public Charizard_flight() {
 		setTitle("CHARIZARD FLIGHT");
 		setUndecorated(true);
@@ -122,15 +124,18 @@ public class Charizard_flight extends JFrame{
 		add(retryButton);
 	}
 	
+	
+	// 게임 시작 (게임 스레드를 시작시킴으로써 작동)
 	public void playGame() {
 		addKeyListener(new KeyListener());
-		setFocusable(true);
+		setFocusable(true);	// 넣어주지 않을 시 키보드 리스너가 인식을 못함
 		isGameScreen = true;
 		startButton.setVisible(false);
 		explainButton.setVisible(false);
 		game.start();
 	}
 	
+	// 게임 오버(다시 시작 버튼을 화면에 다시 보이게 함)
 	public static void gameOver() {
 		retryButton.setVisible(true);
 	}

@@ -15,38 +15,38 @@ public class Game extends Thread{
 	private Image shield = new ImageIcon(Main.class.getResource("../images/shield.png")).getImage();
 	private Image backgroundImage = new ImageIcon(Main.class.getResource("../images/Game_screen.png")).getImage();
 	private Image victory = new ImageIcon(Main.class.getResource("../images/victory.png")).getImage();
-	
+
 	private int playerX, playerY, playerHP;
 	private int playerwidth, playerheight;
-	private int attack, attackspeed, speed;	// ÇÃ·¹ÀÌ¾î À§Ä¡, °ø°İ À§Ä¡, °ø°İ·Â, °ø°İÁÖ±â, ÀÌµ¿¼Óµµ
+	private int attack, attackspeed, speed;	// í”Œë ˆì´ì–´ ìœ„ì¹˜, ê³µê²© ìœ„ì¹˜, ê³µê²©ë ¥, ê³µê²©ì£¼ê¸°, ì´ë™ì†ë„
 	private int score;
 	private int backgroundX;
-	private int cnt; //ÁÖ±â
+	private int cnt; //ì£¼ê¸°
 	private int spawnX, spawnY;
-	
-	private boolean up, down, left, right, shooting;	// Å° ÀÔ·ÂÀ» ¹Ş±â À§ÇÑ º¯¼ö
-	private boolean boss, meteor, hyperbeam, thunder, removeThunder, protect;	// º¸½º Çàµ¿ Á¶Àı
-	private boolean win, over;	// ¾²·¹µå Á¾·á
-	
-	ArrayList<Player_attack> playerAttackList = new ArrayList<Player_attack>();	// ÇÃ·¹ÀÌ¾î °ø°İ ¹è¿­
-	ArrayList<Enemy> enemyList = new ArrayList<Enemy>();	// Àû ¹è¿­
-	ArrayList<Enemy_attack> enemyAttackList = new ArrayList<Enemy_attack>();	// Àú °ø°İ ¹è¿­
-	
+
+	private boolean up, down, left, right, shooting;	// í‚¤ ì…ë ¥ì„ ë°›ê¸° ìœ„í•œ ë³€ìˆ˜
+	private boolean boss, meteor, hyperbeam, thunder, removeThunder, protect;	// ë³´ìŠ¤ í–‰ë™ ì¡°ì ˆ
+	private boolean win, over;	// ì“°ë ˆë“œ ì¢…ë£Œ
+
+	ArrayList<Player_attack> playerAttackList = new ArrayList<Player_attack>();	// í”Œë ˆì´ì–´ ê³µê²© ë°°ì—´
+	ArrayList<Enemy> enemyList = new ArrayList<Enemy>();	// ì  ë°°ì—´
+	ArrayList<Enemy_attack> enemyAttackList = new ArrayList<Enemy_attack>();	// ì € ê³µê²© ë°°ì—´
+
 	Player_attack playerAttack;
 	Enemy enemy;
 	Enemy_attack enemyAttack;
-	
+
 	public static Boss BOSS = new Boss();
-	
+
 	public void playerDraw(Graphics2D g) {
-		g.drawImage(player, playerX, playerY, null);	// ÇÃ·¹ÀÌ¾î ±×¸®±â
-		
+		g.drawImage(player, playerX, playerY, null);	// í”Œë ˆì´ì–´ ê·¸ë¦¬ê¸°
+
 		for(int i=0; i<playerAttackList.size(); i++) {
 			playerAttack = (Player_attack)(playerAttackList.get(i));
-			g.drawImage(fire, playerAttack.x, playerAttack.y, null);	// ÇÃ·¹ÀÌ¾î °ø°İ ±×¸®±â
+			g.drawImage(fire, playerAttack.x, playerAttack.y, null);	// í”Œë ˆì´ì–´ ê³µê²© ê·¸ë¦¬ê¸°
 		}
 	}
-	
+
 	public void enemyDraw(Graphics2D g) {
 		for(int i=0; i<enemyList.size(); i++) {
 			enemy = (Enemy)(enemyList.get(i));
@@ -84,16 +84,16 @@ public class Game extends Thread{
 			g.drawImage(enemyAttack.EnemyAttackImage, enemyAttack.x, enemyAttack.y, null);
 		}
 	}
-	
+
 	public void backgroundDraw(Graphics2D g) {
 		g.drawImage(backgroundImage, backgroundX, 0, null);
 		backgroundX--;
-		if(backgroundX < -760)	// backgroundX = ±×¸² °¡·ÎÇÈ¼¿ +1280
+		if(backgroundX < -760)	// backgroundX = ê·¸ë¦¼ ê°€ë¡œí”½ì…€ +1280
 			g.drawImage(backgroundImage, Main.SCREEN_WIDTH-((backgroundX*-1)-760), 0, null);
-		if(backgroundX == -2040)	// -(±×¸² °¡·Î±æÀÌ)
+		if(backgroundX == -2040)	// -(ê·¸ë¦¼ ê°€ë¡œê¸¸ì´)
 			backgroundX=0;
 	}
-	
+
 	public void gameInfoDraw(Graphics g) {
 		if(win) {
 			g.drawImage(victory, 440, 305, null);
@@ -107,12 +107,12 @@ public class Game extends Thread{
 		g.setColor(Color.GREEN);
 		g.fillRect(140, 110, playerHP*3, 40);
 	}
-	
+
 	@Override
 	public void run() {
 		Charizard_flight.audio.PlayLoop("src/audio/backgroundmusic.wav");
 		BOSS.start();
-		Init();	// ÃÊ±âÈ­
+		Init();	// ì´ˆê¸°í™”
 		while (true) {
 			try {
 				Thread.sleep(100);
@@ -126,7 +126,7 @@ public class Game extends Thread{
 				EnemyAttackprocess();
 				Crashcheck();
 				try {
-					Thread.sleep(20);	// 0.02ÃÊ°£ÀÇ ¾²·¹µå ½½¸³
+					Thread.sleep(20);	// 0.02ì´ˆê°„ì˜ ì“°ë ˆë“œ ìŠ¬ë¦½
 					cnt++;
 				} catch (InterruptedException ex) {
 					ex.printStackTrace();
@@ -134,16 +134,16 @@ public class Game extends Thread{
 			}
 		}
 	}
-	
+
 	public void Init() {
 		player = new ImageIcon(Main.class.getResource("../images/player.png")).getImage();
 		fire = new ImageIcon(Main.class.getResource("../images/charizard_attack.png")).getImage();
 		backgroundImage = new ImageIcon(Main.class.getResource("../images/Game_screen.png")).getImage();
-		
+
 		enemyList.clear();
 		playerAttackList.clear();
 		enemyAttackList.clear();
-		
+
 		backgroundX = 0;
 		playerX = 10;
 		playerY = 300;
@@ -165,14 +165,14 @@ public class Game extends Thread{
 		BOSS.setMegaRayquaza(false);
 		win = false;
 		over = false;
-		
+
 		try {
-			Thread.sleep(1000);	// 1ÃÊ ´ë±â
+			Thread.sleep(1000);	// 1ì´ˆ ëŒ€ê¸°
 		} catch (InterruptedException ex) {
 			ex.printStackTrace();
 		}
-	}	// °ÔÀÓ ÃÊ±âÈ­ ¸Ş¼Òµå
-	
+	}	// ê²Œì„ ì´ˆê¸°í™” ë©”ì†Œë“œ
+
 	private void KeyProcess() {
 		if (up && playerY-speed > 30) {
 			playerY-=speed;
@@ -187,7 +187,7 @@ public class Game extends Thread{
 			playerX+=speed;
 		}
 		if (shooting) {
-			if (cnt%attackspeed == 0) {	// ¾È¿¡ ÀÖ´Â ¼ıÀÚ°¡ ÀÛÀ»¼ö·Ï °ø°İÁÖ±â°¡ ÂªÀ½
+			if (cnt%attackspeed == 0) {	// ì•ˆì— ìˆëŠ” ìˆ«ìê°€ ì‘ì„ìˆ˜ë¡ ê³µê²©ì£¼ê¸°ê°€ ì§§ìŒ
 				if (attack == 10)
 					playerAttack = new Player_attack(playerX+150, playerY+70, attack);
 				else
@@ -197,8 +197,8 @@ public class Game extends Thread{
 			else
 				return;
 		}
-	}	// Å° ÀÔ·Â ¹Ş±â ¸Ş¼Òµå
-	
+	}	// í‚¤ ì…ë ¥ ë°›ê¸° ë©”ì†Œë“œ
+
 	private void MegaEvolution() {
 		int x = playerX;
 		int y = playerY;
@@ -208,7 +208,7 @@ public class Game extends Thread{
 		playerheight = 100;
 		playerAttackList.clear();
 		try {
-			Thread.sleep(1000);	// 1ÃÊ ´ë±â
+			Thread.sleep(1000);	// 1ì´ˆ ëŒ€ê¸°
 		} catch (InterruptedException ex) {
 			ex.printStackTrace();
 		}
@@ -220,7 +220,7 @@ public class Game extends Thread{
 		attackspeed = 6;
 		speed = 10;
 	}
-	
+
 	private void EnemySpawnProcess() {
 		if (score >= 15000 && !boss) {
 			enemyList.clear();
@@ -237,8 +237,8 @@ public class Game extends Thread{
 			boss = true;
 			BOSS.start(boss);
 			backgroundImage = new ImageIcon(Main.class.getResource("../images/Game_screen2.png")).getImage();
-		}	// º¸½º »ı¼º
-		
+		}	// ë³´ìŠ¤ ìƒì„±
+
 		else if (!boss && cnt!=0) {
 			if (cnt%300 == 0) {
 				for (int i=0; i<3; i++) {
@@ -265,7 +265,7 @@ public class Game extends Thread{
 			}
 		}
 	}
-	
+
 	private void EnemyAttackprocess() {
 		if(boss) {
 			meteor = (BOSS.isMeteor());
@@ -278,7 +278,7 @@ public class Game extends Thread{
 			removeThunder = (BOSS.isRemoveThunder());
 			protect = (BOSS.isProtect());
 		}
-		
+
 		for(int i=0; i<enemyList.size(); i++) {
 			if (cnt%100 == 0) {
 				enemy = (Enemy)(enemyList.get(i));
@@ -297,7 +297,7 @@ public class Game extends Thread{
 						break;
 				}
 			}
-			
+
 			if (boss) {
 				if (enemy.type == "Rayquaza" && meteor == true && cnt%60 == 0) {
 					Charizard_flight.audio.PlaySound("src/audio/meteor_falling.wav");
@@ -326,17 +326,17 @@ public class Game extends Thread{
 					enemyAttack = new Enemy_attack(spawnX, 30, "Thunder");
 					enemyAttackList.add(enemyAttack);
 				}
-			}	// º¸½º Çàµ¿ Ã³¸®
+			}	// ë³´ìŠ¤ í–‰ë™ ì²˜ë¦¬
 		}
-		
+
 		for(int j=0; j<enemyAttackList.size(); j++) {
 			enemyAttack = (Enemy_attack)(enemyAttackList.get(j));
 			enemyAttack.fire();
-			
+
 			if(removeThunder && enemyAttack.type == "Thunder") {
 				enemyAttackList.remove(enemyAttackList.get(j));
 			}
-			
+
 			if(enemyAttack.x < playerX+playerwidth && playerX < enemyAttack.x + enemyAttack.width && enemyAttack.y + enemyAttack.height > (playerY + 50) && enemyAttack.y < (playerY + 50) + (playerheight - 50)) {
 				Charizard_flight.audio.PlaySound("src/audio/hitten_sound.wav");
 				playerHP -= enemyAttack.attack;
@@ -346,7 +346,7 @@ public class Game extends Thread{
 				enemyAttackList.remove(enemyAttackList.get(j));
 			}
 		}
-		
+
 		if (playerHP <= 0) {
 			enemyList.clear();
 			playerAttackList.clear();
@@ -355,7 +355,7 @@ public class Game extends Thread{
 			Charizard_flight.gameOver();
 		}
 	}
-	
+
 	private void playerAttackprocess() {
 		try {
 			for(int i=0; i<playerAttackList.size(); i++) {
@@ -407,13 +407,13 @@ public class Game extends Thread{
 					}
 				}
 				if(playerAttack.x > 1240) {
-					playerAttackList.remove(playerAttackList.get(i)); // ÇÃ·¹ÀÌ¾î ¹Ì»çÀÏ Áö¿ì±â
+					playerAttackList.remove(playerAttackList.get(i)); // í”Œë ˆì´ì–´ ë¯¸ì‚¬ì¼ ì§€ìš°ê¸°
 					i--;
 				}
 			}
 		} catch (Exception e) {}
 	}
-	
+
 	private void Crashcheck() {
 		for(int i=0; i<enemyList.size(); i++) {
 			enemy = (Enemy)(enemyList.get(i));
@@ -440,61 +440,61 @@ public class Game extends Thread{
 			}
 		}
 	}
-	
+
 	public void true_Up() {
 		if(up)
 			return;
 		up = true;
 	}
-	
+
 	public void true_Down() {
 		if(down)
 			return;
 		down = true;
 	}
-	
+
 	public void true_Left() {
 		if(left)
 			return;
 		left = true;
 	}
-	
+
 	public void true_Right() {
 		if(right)
 			return;
 		right = true;
 	}
-	
+
 	public void true_Shooting() {
 		if(shooting)
 			return;
 		shooting = true;
 	}
-	
+
 	public void false_Up() {
 		if(!up)
 			return;
 		up = false;
 	}
-	
+
 	public void false_Down() {
 		if(!down)
 			return;
 		down = false;
 	}
-	
+
 	public void false_Left() {
 		if(!left)
 			return;
 		left = false;
 	}
-	
+
 	public void false_Right() {
 		if(!right)
 			return;
 		right = false;
 	}
-	
+
 	public void false_Shooting() {
 		if(!shooting)
 			return;
@@ -508,5 +508,5 @@ public class Game extends Thread{
 	public boolean isOver() {
 		return over;
 	}
-	
+
 }
